@@ -6,3 +6,4 @@ images/*
 checkpoint/*
 results/*
 *.npy
+weights/*

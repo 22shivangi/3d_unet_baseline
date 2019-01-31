@@ -19,7 +19,7 @@ from keras.utils import to_categorical
 from models.threeDUNet import get_3Dunet
 import SimpleITK as sitk
 
-from evaluation import getDSC, getHausdorff, getVS
+from eval.evaluation import getDSC, getHausdorff, getVS
 from models.DRUNet import get_model
 from metrics import dice_coef, dice_coef_loss
 

@@ -6,9 +6,11 @@ import json
 import os
 import numpy as np
 from sklearn.utils import class_weight
-from keras.optimizers import Adam
-from keras.utils import to_categorical
+from tensorflow import keras
+Adam = keras.optimizers.Adam
+to_categorical = keras.utils.to_categorical
 from models.threeDUNet import get_3Dunet
+from tf_logging.tf_logger import Logger
 #from run_test import get_eval_metrics
 #from tools.augmentation import augmentation
 from metrics import weighted_categorical_crossentropy
@@ -17,6 +19,7 @@ def main(eval_per_epoch = True, use_augmentation=False, use_weighted_crossentrop
 #    assert (test_imgs_np_file != '' and test_masks_np_file != '') or \
 #           (test_imgs_np_file == '' and test_masks_np_file == ''), \
     os.environ["CUDA_VISIBLE_DEVICES"]="1"
+    logger = Logger(model_name='gan', data_name="mr_brains", log_path="tf_logs/")
     num_classes = 10
     if not use_augmentation:
         total_epochs = 800
@@ -32,6 +35,8 @@ def main(eval_per_epoch = True, use_augmentation=False, use_weighted_crossentrop
         
     train_imgs = np.load('train_data.npy')
     train_masks = np.load('train_gt.npy')
+    val_imgs = np.load('val_data.npy')
+    val_masks = np.load('val_gt.npy')
 
     if use_weighted_crossentropy:
         class_weights = class_weight.compute_class_weight('balanced', np.unique(train_masks),
@@ -43,22 +48,33 @@ def main(eval_per_epoch = True, use_augmentation=False, use_weighted_crossentrop
 #        model.load_weights(pretrained_model)
 
     train_masks_cat = to_categorical(train_masks, num_classes)
+    val_masks_cat = to_categorical(val_masks, num_classes)
 
     if use_weighted_crossentropy:
-        model.compile(optimizer=Adam(lr=(lr)), loss=weighted_categorical_crossentropy(class_weights))
+        model.compile(optimizer=Adam(lr=(lr)), loss=weighted_categorical_crossentropy(class_weights), metrics=['acc'])
     else:
-        model.compile(optimizer=Adam(lr=(lr)), loss='categorical_crossentropy')
+        model.compile(optimizer=Adam(lr=(lr)), loss='categorical_crossentropy', metrics=['acc'])
 #    model.fit(train_imgs, train_masks_cat, batch_size=batch_size, epochs=total_epochs, verbose=True, shuffle=True)
     current_epoch = 1
     history = {}
     history['dsc'] = []
     history['h95'] = []
     history['vs'] = []
+
+    best_val_acc = 0
     while current_epoch <= total_epochs:
         print('Epoch', str(current_epoch), '/', str(total_epochs))
-        model.fit(train_imgs, train_masks_cat, batch_size=batch_size, epochs=1, verbose=True, shuffle=True)
-        if current_epoch %50 == 0:
-            model.save_weights('initial'+str(current_epoch)+'.h5')
+        hist = model.fit(x=train_imgs, y=train_masks_cat, batch_size=batch_size, epochs=1, verbose=True, shuffle=True,
+                               validation_data=(val_imgs,val_masks_cat))
+
+        logger.log_loss(mode='train', loss=hist.history['loss'][0], epoch=current_epoch)
+        logger.log_loss(mode='val', loss=hist.history['val_loss'][0], epoch=current_epoch)
+        logger.log_acc(mode='train', acc=hist.history['acc'][0], epoch=current_epoch)
+        logger.log_acc(mode='val', acc=hist.history['val_acc'][0], epoch=current_epoch)
+
+        if best_val_acc < hist.history['val_acc'][0]:
+            best_val_acc = hist.history['val_acc'][0]
+            model.save_weights('weights/initial_' + str(current_epoch) + '.h5')
 
 #        if eval_per_epoch and current_epoch % 100 == 0:
 #            model.save_weights(output_weights_file)
