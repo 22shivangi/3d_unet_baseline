@@ -69,26 +69,40 @@ def main():
     stride = [4, 16, 16]
     test_imgs_1 = np.load('val_1_data.npy')
     test_masks_1 = np.load('val_1_gt.npy')
-    test_imgs_2 = np.load('val_148_data.npy')
-    test_masks_2 = np.load('val_148_gt.npy')
+    test_imgs148 = np.load('val_148_data.npy')
+    test_masks148 = np.load('val_148_gt.npy')
 
     img_shape = (8, 32, 32, 2)
     patch_size = (8, 32, 32)
     model = get_3Dunet(img_shape=img_shape, num_classes=num_classes)
 #    assert os.path.isfile(pretrained_model)
     model.load_weights('initial100.h5')
-    pred_masks = global_prediction(model, test_imgs_2, patch_size, stride)
-    pred_masks = pred_masks.argmax(axis=4)
-    pred_masks = pred_masks[0, :, :, :, np.newaxis]
-    np.save('pred_masks.npy', pred_masks)
-    dsc, h95, vs = get_eval_metrics(test_masks_2[...,0], pred_masks[...,0])
 
-#    if output_pred_mask_file != '':
-#        np.save(output_pred_mask_file, pred_masks)
-    print (dsc)
+
+    pred_masks148 = global_prediction(model, test_imgs148, patch_size, stride)
+    pred_masks148 = pred_masks148.argmax(axis=4)
+    pred_masks148 = pred_masks148[0, :, :, :, np.newaxis]
+    np.save('pred_masks148.npy', pred_masks148)
+    dsc, h95, vs = get_eval_metrics(test_masks148[...,0], pred_masks148[...,0])
+    print("Subject 148")
+    print(dsc)
     print(h95)
     print(vs)
-    return (dsc, h95, vs)
+
+
+
+    pred_masks1 = global_prediction(model, test_imgs_1, patch_size, stride)
+    pred_masks1 = pred_masks1.argmax(axis=4)
+    pred_masks1 = pred_masks1[0, :, :, :, np.newaxis]
+    np.save('pred_masks1.npy', pred_masks1)
+    dsc, h95, vs = get_eval_metrics(test_masks_1[..., 0], pred_masks1[..., 0])
+    print("Subject 1")
+    print(dsc)
+    print(h95)
+    print(vs)
+
+
+
 
 
 if __name__ == '__main__':
