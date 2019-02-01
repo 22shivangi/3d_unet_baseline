@@ -27,11 +27,11 @@ def main(eval_per_epoch = True, use_augmentation=False, use_weighted_crossentrop
         total_epochs = 500
     batch_size = 32
     lr = 1e-4
-    if eval_per_epoch:
-        test_imgs_1 = np.load('val_1_data.npy')
-        test_masks_1 = np.load('val_1_gt.npy')
-        test_imgs_2 = np.load('val_148_data.npy')
-        test_masks_2 = np.load('val_148_gt.npy')
+    # if eval_per_epoch:
+    #     test_imgs_1 = np.load('val_1_data.npy')
+    #     test_masks_1 = np.load('val_1_gt.npy')
+    #     test_imgs_2 = np.load('val_148_data.npy')
+    #     test_masks_2 = np.load('val_148_gt.npy')
         
     train_imgs = np.load('train_data.npy')
     train_masks = np.load('train_gt.npy')
