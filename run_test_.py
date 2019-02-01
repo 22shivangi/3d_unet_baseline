@@ -12,15 +12,12 @@ from __future__ import division
 #import click
 import json
 import os
+import nibabel as nib
 import numpy as np
-from sklearn.utils import class_weight
-from keras.optimizers import Adam
-from keras.utils import to_categorical
 from models.threeDUNet import get_3Dunet
 import SimpleITK as sitk
 
 from eval.evaluation import getDSC, getHausdorff, getVS
-from models.DRUNet import get_model
 from metrics import dice_coef, dice_coef_loss
 
 
@@ -82,6 +79,7 @@ def main():
     pred_masks148 = global_prediction(model, test_imgs148, patch_size, stride)
     pred_masks148 = pred_masks148.argmax(axis=4)
     pred_masks148 = pred_masks148[0, :, :, :, np.newaxis]
+    save_image(image=pred_masks148,img_num="148")
     np.save('pred_masks148.npy', pred_masks148)
     dsc, h95, vs = get_eval_metrics(test_masks148[...,0], pred_masks148[...,0])
     print("Subject 148")
@@ -94,6 +92,7 @@ def main():
     pred_masks1 = global_prediction(model, test_imgs_1, patch_size, stride)
     pred_masks1 = pred_masks1.argmax(axis=4)
     pred_masks1 = pred_masks1[0, :, :, :, np.newaxis]
+    save_image(image=pred_masks1, img_num="1")
     np.save('pred_masks1.npy', pred_masks1)
     dsc, h95, vs = get_eval_metrics(test_masks_1[..., 0], pred_masks1[..., 0])
     print("Subject 1")
@@ -102,6 +101,10 @@ def main():
     print(vs)
 
 
+def save_image(image,img_num="1",direc="results/"):
+    img = nib.Nifti1Image(image, None)
+    imgname = 'result_' + str(img_num) + '.nii.gz'
+    nib.save(img, os.path.join(direc, imgname))
 
 
 
