@@ -78,8 +78,8 @@ def main():
 
     pred_masks148 = global_prediction(model, test_imgs148, patch_size, stride)
     pred_masks148 = pred_masks148.argmax(axis=4)
-    print(np.transpose(pred_masks148[0, :, :, :],[1,2,0]).shape)
-    save_image(image=pred_masks148, img_num="148")
+
+    save_image(image=np.transpose(pred_masks148[0, :, :, :],[1,2,0]), img_num="148")
     pred_masks148 = pred_masks148[0, :, :, :, np.newaxis]
 
     np.save('pred_masks148.npy', pred_masks148)

@@ -130,8 +130,3 @@ for dir_name in val_list:
     
     np.save('val_'+dir_name+'_data.npy', flair_t1)
     np.save('val_'+dir_name+'_gt.npy', seg_array)
-
-
-
-
-

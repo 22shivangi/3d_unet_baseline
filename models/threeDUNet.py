@@ -96,5 +96,4 @@ def get_3Dunet(img_shape, num_classes):
 
     conv8 = Conv3D(num_classes, 1, activation='sigmoid', padding='same')(conv7)  # , kernel_initializer='he_normal'
     model = Model(inputs=inputs, outputs=conv8)
-    #        model.compile(optimizer=Adam(lr=(1e-4)), loss=dice_coef_loss)
     return model
