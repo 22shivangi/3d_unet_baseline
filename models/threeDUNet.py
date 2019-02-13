@@ -5,6 +5,7 @@ from tensorflow import keras
 Model = keras.models.Model
 Input = keras.layers.Input
 Conv3D = keras.layers.Conv3D
+AveragePooling3D = keras.layers.AveragePooling3D
 MaxPooling3D = keras.layers.MaxPooling3D
 UpSampling3D = keras.layers.UpSampling3D
 Cropping3D = keras.layers.Cropping3D
@@ -47,9 +48,9 @@ def get_crop_shape(target, refer):
 
 def conv_3D_bn_relu(nd, filter_conv, inputs=None):
     conv = Conv3D(nd, filter_conv, padding='same')(inputs)  # , kernel_initializer='he_normal'
-    # bn = BatchNormalization()(conv)
     relu = Activation('relu')(conv)
-    return relu
+    bn = BatchNormalization()(relu)
+    return bn
 
 
 def get_3Dunet(img_shape, num_classes):
@@ -65,17 +66,17 @@ def get_3Dunet(img_shape, num_classes):
     conv1 = conv_3D_bn_relu(64, filter_conv_1, conv1)
     trans_conv1 = conv_3D_bn_relu(64, filter_conv_2, conv1)
 
-    pool1 = MaxPooling3D(pool_size=filter_mp_1)(conv1)
+    pool1 = AveragePooling3D(pool_size=filter_mp_1)(conv1)
     conv2 = conv_3D_bn_relu(128, filter_conv_1, pool1)
     conv2 = conv_3D_bn_relu(128, filter_conv_1, conv2)
     trans_conv2 = conv_3D_bn_relu(32, filter_conv_2, conv2)
 
-    pool2 = MaxPooling3D(pool_size=filter_mp_2)(conv2)
+    pool2 = AveragePooling3D(pool_size=filter_mp_2)(conv2)
     conv3 = conv_3D_bn_relu(256, filter_conv_1, pool2)
     conv3 = conv_3D_bn_relu(256, filter_conv_1, conv3)
     trans_conv3 = conv_3D_bn_relu(32, filter_conv_2, conv3)
 
-    pool3 = MaxPooling3D(pool_size=filter_mp_1)(conv3)
+    pool3 = AveragePooling3D(pool_size=filter_mp_1)(conv3)
     conv4 = conv_3D_bn_relu(384, filter_conv_1, pool3)
     conv4 = conv_3D_bn_relu(384, filter_conv_1, conv4)
 
