@@ -16,7 +16,7 @@ from tf_logging.tf_logger import Logger
 #from tools.augmentation import augmentation
 from metrics import weighted_categorical_crossentropy
 
-def main(eval_per_epoch = True, use_augmentation=False, use_weighted_crossentropy=True):
+def main(eval_per_epoch = True, use_augmentation=False, use_weighted_crossentropy=False):
 #    assert (test_imgs_np_file != '' and test_masks_np_file != '') or \
 #           (test_imgs_np_file == '' and test_masks_np_file == ''), \
     os.environ["CUDA_VISIBLE_DEVICES"]="1"

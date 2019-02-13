@@ -49,8 +49,8 @@ def get_crop_shape(target, refer):
 def conv_3D_bn_relu(nd, filter_conv, inputs=None):
     conv = Conv3D(nd, filter_conv, padding='same')(inputs)  # , kernel_initializer='he_normal'
     relu = Activation('relu')(conv)
-    #bn = BatchNormalization()(relu)
-    return relu
+    bn = BatchNormalization()(relu)
+    return bn
 
 
 def get_3Dunet(img_shape, num_classes):
