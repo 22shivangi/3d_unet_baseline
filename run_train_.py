@@ -4,6 +4,7 @@ from __future__ import division
 #import click
 import json
 import os
+import math
 import numpy as np
 from sklearn.utils import class_weight
 from tensorflow import keras
@@ -51,9 +52,9 @@ def main(eval_per_epoch = True, use_augmentation=False, use_weighted_crossentrop
     val_masks_cat = to_categorical(val_masks, num_classes)
 
     if use_weighted_crossentropy:
-        model.compile(optimizer=Adam(lr=(lr)), loss=weighted_categorical_crossentropy(class_weights), metrics=['acc'])
+        model.compile(optimizer=Adam(lr=(lr), decay=0.01), loss=weighted_categorical_crossentropy(class_weights), metrics=['acc'])
     else:
-        model.compile(optimizer=Adam(lr=(lr)), loss='categorical_crossentropy', metrics=['acc'])
+        model.compile(optimizer=Adam(lr=(lr), decay=0.01), loss='categorical_crossentropy', metrics=['acc'])
 #    model.fit(train_imgs, train_masks_cat, batch_size=batch_size, epochs=total_epochs, verbose=True, shuffle=True)
     current_epoch = 1
     history = {}
@@ -98,6 +99,7 @@ def main(eval_per_epoch = True, use_augmentation=False, use_weighted_crossentrop
 #    if output_test_eval != '':
 #        with open(output_test_eval, 'w+') as outfile:
 #            json.dump(history, outfile)
+
 
 
 if __name__ == "__main__":
