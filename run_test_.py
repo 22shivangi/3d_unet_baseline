@@ -76,10 +76,9 @@ def main():
     pred_masks148 = global_prediction(model, test_imgs148, patch_size, stride)
     pred_masks148 = pred_masks148.argmax(axis=4)
 
-    save_image(image=np.transpose(pred_masks148[0, :, :, :],[1,2,0]), img_num="148")
+    save_image(image=np.transpose(pred_masks148[0, :, :, :],), img_num="148")
     pred_masks148 = pred_masks148[0, :, :, :, np.newaxis]
 
-    np.save('pred_masks148.npy', pred_masks148)
     dsc, h95, vs = get_eval_metrics(test_masks148[...,0], pred_masks148[...,0])
     print("Subject 148")
     print(dsc)
@@ -90,9 +89,10 @@ def main():
 
     pred_masks1 = global_prediction(model, test_imgs_1, patch_size, stride)
     pred_masks1 = pred_masks1.argmax(axis=4)
+
+    save_image(image=np.transpose(pred_masks1[0, :, :, :],), img_num="1")
     pred_masks1 = pred_masks1[0, :, :, :, np.newaxis]
-    save_image(image=pred_masks1, img_num="1")
-    np.save('pred_masks1.npy', pred_masks1)
+
     dsc, h95, vs = get_eval_metrics(test_masks_1[..., 0], pred_masks1[..., 0])
     print("Subject 1")
     print(dsc)
