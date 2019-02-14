@@ -32,10 +32,7 @@ def get_eval_metrics(true_mask, pred_mask):
     result['dsc'] = dsc
     result['h95'] = h95
     result['vs'] = vs
-#
-#    if output_file != '':
-#        with open(output_file, 'w+') as outfile:
-#            json.dump(result, outfile)
+
     return (dsc, h95, vs)
 
 
@@ -73,7 +70,7 @@ def main():
     patch_size = (8, 32, 32)
     model = get_3Dunet(img_shape=img_shape, num_classes=num_classes)
 #    assert os.path.isfile(pretrained_model)
-    model.load_weights('weights/initial_34.h5')
+    model.load_weights('weights/best_baseline.h5')
 
 
     pred_masks148 = global_prediction(model, test_imgs148, patch_size, stride)
