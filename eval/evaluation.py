@@ -152,6 +152,7 @@ def getHausdorff(testImage, resultImage):
             kdTree = scipy.spatial.KDTree(a, leafsize=100)
             return kdTree.query(b, k=1, eps=0, p=2)[0]
 
+        print(testCoordinates.shape)
         # Compute distances from test to result and vice versa.
         dTestToResult = getDistancesFromAtoB(testCoordinates, resultCoordinates)
         dResultToTest = getDistancesFromAtoB(resultCoordinates, testCoordinates)

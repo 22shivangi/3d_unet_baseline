@@ -23,9 +23,10 @@ from metrics import dice_coef, dice_coef_loss
 
 
 def main():
-
-    img148 = np.transpose(sitk.GetArrayFromImage(sitk.ReadImage("results/result_148.nii.gz")),[1,2,0])
-    img1 = np.transpose(sitk.GetArrayFromImage(sitk.ReadImage("results/result_1.nii.gz")),[1,2,0])
+    img148 = nib.load("results/result_148.nii.gz").get_fdata()
+    img1 = nib.load("results/result_1.nii.gz").get_fdata()
+    #img148 = np.transpose(sitk.GetArrayFromImage(sitk.ReadImage("results/result_148.nii.gz")),[1,2,0])
+    #img1 = np.transpose(sitk.GetArrayFromImage(sitk.ReadImage("results/result_1.nii.gz")),[1,2,0])
     img148[img148 == 9] = 0
     img1[img1 == 9] = 0
 
