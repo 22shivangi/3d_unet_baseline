@@ -135,6 +135,7 @@ def getHausdorff(testImage, resultImage):
 
         hTestArray = sitk.GetArrayFromImage(hTestImage)
         hResultArray = sitk.GetArrayFromImage(hResultImage)
+        print(hTestArray.shape)
 
         # Convert voxel location to world coordinates. Use the coordinate system of the test image
         # np.nonzero   = elements of the boundary in numpy order (zyx)
@@ -152,7 +153,7 @@ def getHausdorff(testImage, resultImage):
             kdTree = scipy.spatial.KDTree(a, leafsize=100)
             return kdTree.query(b, k=1, eps=0, p=2)[0]
 
-        print(testCoordinates.shape)
+        print(testCoordinates)
         # Compute distances from test to result and vice versa.
         dTestToResult = getDistancesFromAtoB(testCoordinates, resultCoordinates)
         dResultToTest = getDistancesFromAtoB(resultCoordinates, testCoordinates)

@@ -83,6 +83,7 @@ def main():
 
     dsc, h95, vs = get_eval_metrics(test_masks148[...,0], pred_masks148[...,0])
     print(len(test_masks148[...,0]))
+    print(test_masks148[...,0])
     print("Subject 148")
     print(dsc)
     print(h95)
