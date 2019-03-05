@@ -82,7 +82,7 @@ def main():
     pred_masks148 = pred_masks148[0, :, :, :, np.newaxis]
 
     dsc, h95, vs = get_eval_metrics(test_masks148[...,0], pred_masks148[...,0])
-    print(test_masks148[...,0].shape)
+    print(len(test_masks148[...,0]))
     print("Subject 148")
     print(dsc)
     print(h95)
