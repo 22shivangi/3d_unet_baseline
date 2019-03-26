@@ -62,8 +62,8 @@ def main():
     num_classes = 10
     # learn_rate = 1e-5
     stride = [4, 16, 16]
-    test_imgs_7 = np.load('val_data.npy')
-    test_masks_7 = np.load('val_gt.npy')
+    test_imgs_7 = np.load('test_7_data.npy')
+    test_masks_7 = np.load('test_7_gt.npy')
     test_imgs14 = np.load('test_14_data.npy')
     test_masks14 = np.load('test_14_gt.npy')
 
