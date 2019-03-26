@@ -61,10 +61,10 @@ def main():
     num_classes = 10
     # learn_rate = 1e-5
     stride = [4, 16, 16]
-    test_imgs_1 = np.load('val_1_data.npy')
-    test_masks_1 = np.load('val_1_gt.npy')
-    test_imgs148 = np.load('val_148_data.npy')
-    test_masks148 = np.load('val_148_gt.npy')
+    test_imgs_7 = np.load('test_7_data.npy')
+    test_masks_7 = np.load('tes_7_gt.npy')
+    test_imgs14 = np.load('test_14_data.npy')
+    test_masks14 = np.load('test_14_gt.npy')
 
     img_shape = (8, 32, 32, 2)
     patch_size = (8, 32, 32)
@@ -73,32 +73,32 @@ def main():
     model.load_weights('weights/best_baseline.h5')
 
 
-    pred_masks148 = global_prediction(model, test_imgs148, patch_size, stride)
-    pred_masks148 = pred_masks148.argmax(axis=4)
-    print(pred_masks148.shape)
-    print(np.transpose(pred_masks148[0, :, :, :],).shape)
+    pred_masks14 = global_prediction(model, test_imgs14, patch_size, stride)
+    pred_masks14 = pred_masks14.argmax(axis=4)
+    print(pred_masks14.shape)
+    print(np.transpose(pred_masks14[0, :, :, :],).shape)
 
-    save_image(image=np.transpose(pred_masks148[0, :, :, :],), img_num="148")
-    pred_masks148 = pred_masks148[0, :, :, :, np.newaxis]
+    save_image(image=np.transpose(pred_masks14[0, :, :, :],), img_num="14")
+    pred_masks14 = pred_masks14[0, :, :, :, np.newaxis]
 
-    dsc, h95, vs = get_eval_metrics(test_masks148[...,0], pred_masks148[...,0])
-    print(len(test_masks148[...,0]))
-    print(test_masks148[...,0])
-    print("Subject 148")
+    dsc, h95, vs = get_eval_metrics(test_masks14[...,0], pred_masks14[...,0])
+    print(len(test_masks14[...,0]))
+    print(test_masks14[...,0])
+    print("Subject 14")
     print(dsc)
     print(h95)
     print(vs)
 
 
 
-    pred_masks1 = global_prediction(model, test_imgs_1, patch_size, stride)
-    pred_masks1 = pred_masks1.argmax(axis=4)
+    pred_masks7 = global_prediction(model, test_imgs_7, patch_size, stride)
+    pred_masks7 = pred_masks7.argmax(axis=4)
 
-    save_image(image=np.transpose(pred_masks1[0, :, :, :],), img_num="1")
-    pred_masks1 = pred_masks1[0, :, :, :, np.newaxis]
+    save_image(image=np.transpose(pred_masks7[0, :, :, :],), img_num="7")
+    pred_masks7 = pred_masks7[0, :, :, :, np.newaxis]
 
-    dsc, h95, vs = get_eval_metrics(test_masks_1[..., 0], pred_masks1[..., 0])
-    print("Subject 1")
+    dsc, h95, vs = get_eval_metrics(test_masks_7[..., 0], pred_masks7[..., 0])
+    print("Subject 7")
     print(dsc)
     print(h95)
     print(vs)
