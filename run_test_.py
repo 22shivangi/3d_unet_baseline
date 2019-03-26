@@ -24,9 +24,9 @@ from metrics import dice_coef, dice_coef_loss
 def get_eval_metrics(true_mask, pred_mask):
     true_mask_sitk = sitk.GetImageFromArray(true_mask)
     pred_mask_sitk = sitk.GetImageFromArray(pred_mask)
-    print(true_mask_sitk)
+    print(true_mask)
     print("DSFDSfds")
-    print(pred_mask_sitk)
+    print(pred_mask)
     dsc = getDSC(true_mask_sitk, pred_mask_sitk)
     h95 = getHausdorff(true_mask_sitk, pred_mask_sitk)
     vs = getVS(true_mask_sitk, pred_mask_sitk)
