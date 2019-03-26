@@ -73,10 +73,10 @@ def main(eval_per_epoch = True, use_augmentation=False, use_weighted_crossentrop
         logger.log_acc(mode='train', acc=hist.history['acc'][0], epoch=current_epoch)
         logger.log_acc(mode='val', acc=hist.history['val_acc'][0], epoch=current_epoch)
 
-        if best_val_acc < hist.history['val_acc'][0] and best_val_loss > hist.history['val_loss'][0]:
-            best_val_acc = hist.history['val_acc'][0]
-            best_val_loss = hist.history['val_loss'][0]
-            model.save_weights('weights/initial_' + str(current_epoch) + '.h5')
+        # if best_val_acc < hist.history['val_acc'][0] and best_val_loss > hist.history['val_loss'][0]:
+        #     best_val_acc = hist.history['val_acc'][0]
+        #     best_val_loss = hist.history['val_loss'][0]
+        model.save_weights('weights/initial_' + str(current_epoch) + '.h5')
 
 #        if eval_per_epoch and current_epoch % 100 == 0:
 #            model.save_weights(output_weights_file)
