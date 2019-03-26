@@ -14,7 +14,7 @@ import SimpleITK as sitk
 from scipy import ndimage
 
 
-test_list = ['7', '14']
+test_list = ['7']
 stride = [4, 16, 16]
 patch_size = [8, 32, 32]
 seg_path = os.getcwd() + '/data/'
@@ -90,8 +90,8 @@ for dir_name in test_list:
 
 val_data_ = np.concatenate([arr[np.newaxis] for arr in val_data])
 val_gt_ = np.concatenate([arr[np.newaxis] for arr in val_gt])
-np.save('test_7_data.npy', val_data_)
-np.save('test_7__gt.npy', val_gt_)
+np.save('test_'+test_list[0]+'_data.npy',  val_data_)
+np.save('test_'+test_list[0]+'_gt.npy',  val_gt_)
 
 # seg_array = seg_array[...,np.newaxis]
 # flair_t1 = np.concatenate((flair_array[...,np.newaxis], t1_array[..., np.newaxis]), axis = 3)
