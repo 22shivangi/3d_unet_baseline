@@ -125,11 +125,28 @@ for dir_name in val_list:
     t1_array = t1_array - np.mean(t1_array[brain_mask_t1 == 1])
     t1_array /= np.std(t1_array[brain_mask_t1 == 1])
     t1_array = t1_array[:, cut:np.shape(t1_array)[1]-cut, cut:np.shape(t1_array)[2]-cut]
+
+    patch_seg = generate_patches(seg_array, stride, patch_size)
+    patch_flair = generate_patches(flair_array, stride, patch_size)
+    patch_t1 = generate_patches(t1_array, stride, patch_size)
+
+    patch_seg_ = np.concatenate([arr[np.newaxis] for arr in patch_seg])
+    patch_seg_ = patch_seg_[..., np.newaxis]
+    patch_flair_ = np.concatenate([arr[np.newaxis] for arr in patch_flair])
+    patch_t1_ = np.concatenate([arr[np.newaxis] for arr in patch_t1])
+    patch_flair_t1 = np.concatenate((patch_flair_[..., np.newaxis], patch_t1_[..., np.newaxis]), axis=4)
+
+    val_data.extend(patch_flair_t1)
+    val_gt.extend(patch_seg_)
+
+val_data_ = np.concatenate([arr[np.newaxis] for arr in val_data])
+val_gt_ = np.concatenate([arr[np.newaxis] for arr in val_gt])
+np.save('val_data.npy', val_data_)
+np.save('val_gt.npy', val_gt_)
     
-    
-    seg_array = seg_array[...,np.newaxis]
-    flair_t1 = np.concatenate((flair_array[...,np.newaxis], t1_array[..., np.newaxis]), axis = 3)
-    flair_t1 = flair_t1[..., np.newaxis]
-    
-    np.save('val_'+dir_name+'_data.npy', flair_t1)
-    np.save('val_'+dir_name+'_gt.npy', seg_array)
+    # seg_array = seg_array[...,np.newaxis]
+    # flair_t1 = np.concatenate((flair_array[...,np.newaxis], t1_array[..., np.newaxis]), axis = 3)
+    # flair_t1 = flair_t1[..., np.newaxis]
+    #
+    # np.save('val_'+dir_name+'_data.npy', flair_t1)
+    # np.save('val_'+dir_name+'_gt.npy', seg_array)
