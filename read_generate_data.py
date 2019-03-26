@@ -33,6 +33,7 @@ val_data = []
 val_gt = []
 
 dirs = os.listdir(seg_path)
+print(dirs)
 dirs.sort()
 count = 0
 

@@ -36,8 +36,8 @@ def main(eval_per_epoch = True, use_augmentation=False, use_weighted_crossentrop
         
     train_imgs = np.load('train_data.npy')
     train_masks = np.load('train_gt.npy')
-    val_imgs = np.load('val_data.npy')
-    val_masks = np.load('val_gt.npy')
+    val_imgs = np.load('val_148_data.npy')
+    val_masks = np.load('val_148_gt.npy')
 
     if use_weighted_crossentropy:
         class_weights = class_weight.compute_class_weight('balanced', np.unique(train_masks),
