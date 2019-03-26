@@ -58,6 +58,7 @@ def global_prediction(model, test_array, patch_size, stride):
 
 
 def main():
+    os.environ["CUDA_VISIBLE_DEVICES"] = "0"
     num_classes = 10
     # learn_rate = 1e-5
     stride = [4, 16, 16]
