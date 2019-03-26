@@ -22,7 +22,7 @@ train_list = ['1','4', '5', '070']
 val_list = ['148']
 stride = [4, 16, 16]
 patch_size = [8, 32, 32]
-seg_path = 'data'
+seg_path = os.getcwd()+'/data/'
 cut = 10
 thresh = 10
 
