@@ -22,8 +22,8 @@ from metrics import dice_coef, dice_coef_loss
 
 
 def get_eval_metrics(true_mask, pred_mask):
-    true_mask_sitk = true_mask#sitk.GetImageFromArray(true_mask)
-    pred_mask_sitk = pred_mask#sitk.GetImageFromArray(pred_mask)
+    true_mask_sitk = sitk.GetImageFromArray(true_mask)
+    pred_mask_sitk = sitk.GetImageFromArray(pred_mask)
     dsc = getDSC(true_mask_sitk, pred_mask_sitk)
     h95 = getHausdorff(true_mask_sitk, pred_mask_sitk)
     vs = getVS(true_mask_sitk, pred_mask_sitk)
@@ -82,7 +82,7 @@ def main():
     save_image(image=np.transpose(pred_masks14[0, :, :, :],), img_num="14")
     pred_masks14 = pred_masks14[0, :, :, :, np.newaxis]
 
-    dsc, h95, vs = get_eval_metrics(np.array(test_masks14[...,0],dtype = 'float32'), np.array(pred_masks14[...,0],dtype = 'float32'))
+    dsc, h95, vs = get_eval_metrics(test_masks14[...,0], pred_masks14[...,0])
     print(len(test_masks14[...,0]))
     print(test_masks14[...,0])
     print("Subject 14")
