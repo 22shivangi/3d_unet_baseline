@@ -14,7 +14,7 @@ import SimpleITK as sitk
 from scipy import ndimage
 
 
-test_list = ['7']
+test_list = ['14']
 stride = [4, 16, 16]
 patch_size = [8, 32, 32]
 seg_path = os.getcwd() + '/data/'
