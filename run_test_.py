@@ -24,9 +24,6 @@ from metrics import dice_coef, dice_coef_loss
 def get_eval_metrics(true_mask, pred_mask):
     true_mask_sitk = sitk.GetImageFromArray(true_mask)
     pred_mask_sitk = sitk.GetImageFromArray(pred_mask)
-    print(true_mask)
-    print("DSFDSfds")
-    print(pred_mask)
     dsc = getDSC(true_mask_sitk, pred_mask_sitk)
     h95 = getHausdorff(true_mask_sitk, pred_mask_sitk)
     vs = getVS(true_mask_sitk, pred_mask_sitk)
@@ -49,7 +46,7 @@ def get_eval_metrics(true_mask, pred_mask):
 def global_prediction(model, test_array, patch_size, stride):
     output = np.zeros((1, np.shape(test_array)[0], np.shape(test_array)[1], np.shape(test_array)[2], 10), dtype = 'float32')
     for ii in range(0, np.shape(test_array)[0]-patch_size[0], stride[0]):
-        print(ii)
+        #print(ii)
         for jj in range(0, np.shape(test_array)[1]-patch_size[1], stride[1]):
             for kk in range(0, np.shape(test_array)[2]-patch_size[2], stride[2]):
                 patch_output = output[:, ii:ii+patch_size[0], jj:jj+patch_size[1], kk:kk+patch_size[2],:]
