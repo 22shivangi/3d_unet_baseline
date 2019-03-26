@@ -71,7 +71,7 @@ def main():
     patch_size = (8, 32, 32)
     model = get_3Dunet(img_shape=img_shape, num_classes=num_classes)
 #    assert os.path.isfile(pretrained_model)
-    model.load_weights('weights/best_baseline.h5')
+    model.load_weights('weights/initial_74.h5')
 
 
     pred_masks14 = global_prediction(model, test_imgs14, patch_size, stride)
