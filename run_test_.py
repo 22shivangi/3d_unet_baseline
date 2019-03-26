@@ -44,7 +44,7 @@ def get_eval_metrics(true_mask, pred_mask):
 #@click.option('--output_metric_file', type=click.STRING, default='')
     
 def global_prediction(model, test_array, patch_size, stride):
-    output = np.zeros((1, np.shape(test_array)[0], np.shape(test_array)[1], np.shape(test_array)[2], 10))
+    output = np.zeros((1, np.shape(test_array)[0], np.shape(test_array)[1], np.shape(test_array)[2], 10), dtype = 'float32')
     for ii in range(0, np.shape(test_array)[0]-patch_size[0], stride[0]):
         print(ii)
         for jj in range(0, np.shape(test_array)[1]-patch_size[1], stride[1]):
@@ -82,7 +82,7 @@ def main():
     save_image(image=np.transpose(pred_masks14[0, :, :, :],), img_num="14")
     pred_masks14 = pred_masks14[0, :, :, :, np.newaxis]
 
-    dsc, h95, vs = get_eval_metrics(test_masks14[...,0], pred_masks14[...,0])
+    dsc, h95, vs = get_eval_metrics(np.array(test_masks14[...,0],dtype = 'float32'), np.array(pred_masks14[...,0],dtype = 'float32'))
     print(len(test_masks14[...,0]))
     print(test_masks14[...,0])
     print("Subject 14")
