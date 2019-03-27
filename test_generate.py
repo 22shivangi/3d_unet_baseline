@@ -61,7 +61,7 @@ for dir_name in test_list:
     flair_array = flair_array - np.mean(flair_array[brain_mask_flair == 1])
     flair_array /= np.std(flair_array[brain_mask_flair == 1])
     flair_array = flair_array[:, cut:np.shape(flair_array)[1] - cut, cut:np.shape(flair_array)[2] - cut]
-    print(flair_array.shape)
+    print(flair_array[..., np.newaxis].shape)
 
     t1_img = sitk.ReadImage(os.path.join(seg_path, dir_name, 'pre', 'reg_T1.nii.gz'))
     t1_array = sitk.GetArrayFromImage(t1_img)
@@ -75,7 +75,7 @@ for dir_name in test_list:
     t1_array = t1_array - np.mean(t1_array[brain_mask_t1 == 1])
     t1_array /= np.std(t1_array[brain_mask_t1 == 1])
     t1_array = t1_array[:, cut:np.shape(t1_array)[1] - cut, cut:np.shape(t1_array)[2] - cut]
-    print(t1_array.shape)
+    print(t1_array[..., np.newaxis].shape)
 
     # patch_seg = generate_patches(seg_array, stride, patch_size)
     # patch_flair = generate_patches(flair_array, stride, patch_size)
