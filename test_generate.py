@@ -87,6 +87,7 @@ for dir_name in test_list:
     # patch_t1_ = np.concatenate([arr[np.newaxis] for arr in patch_t1])
     flair_t1 = np.concatenate((flair_array[..., np.newaxis], t1_array[..., np.newaxis]), axis=3)
     print(flair_t1.shape)
+    print(seg_array.shape)
 
     val_data.extend(flair_t1)
     val_gt.extend(seg_array)
